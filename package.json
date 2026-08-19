@@ -1,0 +1,51 @@
+{
+  "name": "dsh-plugin-usage-meter",
+  "version": "1.5.0",
+  "description": "API 用量/费用/余额仪表 — DeepSeek Harness 网页插件：输入框下方一个按钮样式的用量条，点击展开面板查看当日小时级/近 7 天按模型堆叠的柱状图、按模型分布、缓存分桶、上下文占用、余额、今日/累计用量与预算提醒，并持久化跨会话账本。",
+  "license": "MIT",
+  "author": "fancr-code",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/index.d.ts",
+    "lib/client.js",
+    "cordis.patch.yml"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fancr-code/dsh-plugin-usage-meter.git"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "plugin",
+    "usage",
+    "cost",
+    "balance",
+    "token"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,7 @@
+# Bundle patch: auto-registers this plugin when installed via
+# `dsh plugin --profile web add dsh-plugin-usage-meter`.
+# (The dsh launcher reconciles any dependency that declares `dsh.bundle.patch`
+# into the profile's bundle layers, so no manual cordis.patch.yml edit is needed.)
+- insert:
+    - id: usage-meter
+      name: dsh-plugin-usage-meter
