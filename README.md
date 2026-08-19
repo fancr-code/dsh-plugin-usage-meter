@@ -65,11 +65,13 @@
 - 已安装 DeepSeek Harness，`dsh web` 可正常启动
 - 余额查询需要 DeepSeek API Key（Web「模型」页写入的 `DEEPSEEK_API_KEY`；不配也能用除余额外的全部功能）
 
-### 三步上手
+### 从 npm 安装（推荐）
 
-1. 安装插件（[npm](https://www.npmjs.com/package/dsh-plugin-usage-meter)）：`dsh plugin --profile web add dsh-plugin-usage-meter`
-2. 重启 `dsh web`，刷新页面
-3. 输入框下方出现按钮式用量条，点击展开面板
+```sh
+dsh plugin --profile web add dsh-plugin-usage-meter
+```
+
+[npm 包地址](https://www.npmjs.com/package/dsh-plugin-usage-meter) · 装完重启 `dsh web` 并刷新页面，输入框下方出现按钮式用量条即生效。
 
 > 插件自带 `dsh.bundle.patch`，`dsh plugin` 会把它自动注册进 profile 的 bundle 层，**无需手动编辑 `cordis.patch.yml`**。
 
