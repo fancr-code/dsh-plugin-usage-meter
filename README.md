@@ -3,9 +3,11 @@
 <p align="center">
   <img src="https://img.shields.io/github/stars/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="Stars">
   &nbsp;
-  <img src="https://img.shields.io/github/license/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="License">
+  <img src="https://img.shields.io/npm/v/dsh-plugin-usage-meter?style=flat-square" alt="npm">
   &nbsp;
-  <img src="https://img.shields.io/github/package-json/v/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/npm/dm/dsh-plugin-usage-meter?style=flat-square" alt="Downloads">
+  &nbsp;
+  <img src="https://img.shields.io/github/license/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="License">
   &nbsp;
   <img src="https://img.shields.io/github/last-commit/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="Last Commit">
 </p>
@@ -89,7 +91,7 @@
 
 ### 三步上手
 
-1. 安装插件：`dsh plugin --profile web add dsh-plugin-usage-meter`
+1. 安装插件（[npm](https://www.npmjs.com/package/dsh-plugin-usage-meter)）：`dsh plugin --profile web add dsh-plugin-usage-meter`
 2. 重启 `dsh web`，刷新页面
 3. 输入框下方出现按钮式用量条，点击展开面板
 
