@@ -63,6 +63,10 @@
     color: var(--text2); background: #10151f; border: 1px solid var(--border-strong);
     border-radius: 999px; padding: 2px 12px; white-space: nowrap;
   }
+  .chip .tier {
+    font-size: 10px; line-height: 15px; padding: 0 5px; border-radius: 999px; font-weight: 600;
+  }
+  .chip .tier.peak { color: #e0a33c; background: rgba(224,163,60,.16); }
   .cost { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
   .dot-sep { color: var(--text3); }
   .chev { color: var(--text3); font-size: 10px; }
@@ -101,7 +105,7 @@
     <div class="footer">刊例价 2026-08-17 · 未定价模型按 flash 估算 · 模型 deepseek-v4-pro · 柱状图与模型分布按当前刊例价估算</div>
   </div>
   <div class="chip-wrap">
-    <span class="chip">API ↑1.2M ↓340K <span class="cost">≈¥3.42</span> <span class="dot-sep">·</span> 今日 ¥18.77 <span class="chev">▾</span></span>
+    <span class="chip"><span class="tier peak" title="高峰价（北京时间 09:00–12:00、14:00–18:00）">峰</span> API ↑1.2M ↓340K <span class="cost">≈¥3.42</span> <span class="dot-sep">·</span> 今日 ¥18.77 <span class="chev">▾</span></span>
   </div>
 <script>
   // 24h usage: [proCost, flashCost] in yuan
