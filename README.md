@@ -1,7 +1,7 @@
 # dsh-plugin-usage-meter
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="Stars">
+  <img src="https://img.shields.io/github/stars/fancr-code/dsh-plugin-usage-meter?style=flat-square&cacheSeconds=300" alt="Stars">
   &nbsp;
   <img src="https://img.shields.io/npm/v/dsh-plugin-usage-meter?style=flat-square" alt="npm">
   &nbsp;
