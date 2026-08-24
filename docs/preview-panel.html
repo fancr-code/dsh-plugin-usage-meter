@@ -20,7 +20,7 @@
   body {
     background: transparent;
     font-family: "Segoe UI", "Microsoft YaHei", -apple-system, sans-serif;
-    width: 440px; height: 640px;
+    width: 440px; height: 700px;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
     padding: 0 0 28px 0;
     -webkit-font-smoothing: antialiased;
@@ -37,6 +37,7 @@
   .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 2px 0; }
   .row .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .row .v { font-variant-numeric: tabular-nums; text-align: right; }
+  .save { color: var(--green); font-weight: 600; }
   .divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
   .total { display: flex; justify-content: space-between; padding: 2px 0; color: var(--text); font-weight: 600; }
   .sec-title { font-size: 11px; color: var(--text3); margin: 10px 0 6px; display: flex; justify-content: space-between; align-items: center; }
@@ -77,16 +78,17 @@
     <div class="header">
       <span class="title">API 用量</span>
       <span class="tag">高峰价</span>
-      <span class="big">¥3.42</span>
+      <span class="big">¥10.69</span>
     </div>
     <div class="row"><span class="k">输入（缓存未命中）</span><span class="v">1.2M · ¥3.60</span></div>
-    <div class="row"><span class="k">输入（缓存命中）</span><span class="v">40.3M (97%) · ¥4.03</span></div>
+    <div class="row"><span class="k">输入（缓存命中）</span><span class="v">40.3M (97%) · ¥4.03 · <span class="save">省 ¥116.87</span></span></div>
     <div class="row"><span class="k">输出</span><span class="v">340K · ¥3.06</span></div>
     <div class="row"><span class="k">上下文占用</span><span class="v">67%</span></div>
     <hr class="divider">
-    <div class="total"><span>本次会话</span><span class="v">¥3.42</span></div>
+    <div class="total"><span>本次会话</span><span class="v">¥10.69</span></div>
     <div class="row"><span class="k">今日累计</span><span class="v">¥18.77</span></div>
     <div class="row"><span class="k">累计</span><span class="v">¥126.50</span></div>
+    <div class="row"><span class="k">缓存节省</span><span class="v"><span class="save">¥483.20</span></span></div>
     <div class="sec-title"><span>用量分布</span><span class="toggles"><span class="tbtn on">当日</span><span class="tbtn">近 7 天</span></span></div>
     <div class="chart" id="chart"></div>
     <div class="legend">
@@ -102,10 +104,10 @@
     <div class="budget-bar"><div class="budget-fill"></div></div>
     <hr class="divider">
     <div class="row"><span class="k">账户余额</span><span class="v"><span class="big" style="font-weight:700">¥372.11</span><button class="refresh">刷新</button></span></div>
-    <div class="footer">刊例价 2026-08-17 · 未定价模型按 flash 估算 · 模型 deepseek-v4-pro · 柱状图与模型分布按当前刊例价估算</div>
+    <div class="footer">官方实时刊例价（2026-08-24 同步）· 未定价模型按 flash 估算 · 柱状图与模型分布按当前刊例价估算</div>
   </div>
   <div class="chip-wrap">
-    <span class="chip"><span class="tier peak" title="高峰价（北京时间 09:00–12:00、14:00–18:00）">峰</span> API ↑1.2M ↓340K <span class="cost">≈¥3.42</span> <span class="dot-sep">·</span> 今日 ¥18.77 <span class="chev">▾</span></span>
+    <span class="chip"><span class="tier peak" title="高峰价（北京时间 09:00–12:00、14:00–18:00）">峰</span> API ↑41.5M ↓340K <span class="cost">≈¥10.69</span> <span class="dot-sep">·</span> 今日 ¥18.77 <span class="chev">▾</span></span>
   </div>
 <script>
   // 24h usage: [proCost, flashCost] in yuan
