@@ -15,12 +15,13 @@
     --blue: #3b82f6;
     --orange: #f59e0b;
     --green: #10b981;
+    --red: #ef4444;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: transparent;
     font-family: "Segoe UI", "Microsoft YaHei", -apple-system, sans-serif;
-    width: 440px; height: 700px;
+    width: 440px; height: 780px;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
     padding: 0 0 28px 0;
     -webkit-font-smoothing: antialiased;
@@ -37,7 +38,12 @@
   .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 2px 0; }
   .row .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .row .v { font-variant-numeric: tabular-nums; text-align: right; }
-  .save { color: var(--green); font-weight: 600; }
+  .occ { font-weight: 500; }
+  .occ.high { color: #f97316; }
+  .occ.critical { color: var(--red); font-weight: 600; }
+  .occ.warn { color: #e0a33c; }
+  .occ.ok { color: var(--text2); }
+  .btn { font: inherit; font-size: 11px; color: inherit; cursor: pointer; background: none; border: 1px solid var(--border-strong); border-radius: 6px; padding: 0 6px; line-height: 18px; margin-left: 6px; }
   .divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
   .total { display: flex; justify-content: space-between; padding: 2px 0; color: var(--text); font-weight: 600; }
   .sec-title { font-size: 11px; color: var(--text3); margin: 10px 0 6px; display: flex; justify-content: space-between; align-items: center; }
@@ -57,6 +63,15 @@
   .budget-bar { background: var(--hover); border-radius: 999px; height: 4px; margin: 6px 0 2px; overflow: hidden; }
   .budget-fill { background: var(--blue); border-radius: 999px; height: 100%; width: 38%; }
   .refresh { font: inherit; font-size: 11px; color: inherit; cursor: pointer; background: none; border: 1px solid var(--border-strong); border-radius: 6px; padding: 0 6px; line-height: 18px; margin-left: 6px; }
+  .tier-badge {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 11px; line-height: 18px;
+    padding: 0 8px; border-radius: 999px; border: 1px solid var(--border-strong);
+    background: var(--hover); color: var(--text); font-weight: 500;
+  }
+  .tier-bar { background: var(--hover); border-radius: 999px; height: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .tier-fill { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border-radius: 999px; height: 100%; width: 25%; }
+  .small { font-size: 11px; line-height: 16px; color: var(--text3); }
+  .update-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; font-size: 11px; line-height: 18px; color: var(--text3); }
   .footer { color: var(--text3); font-size: 11px; line-height: 16px; margin-top: 8px; }
   .chip-wrap { margin-top: 14px; }
   .chip {
@@ -81,14 +96,16 @@
       <span class="big">¥10.69</span>
     </div>
     <div class="row"><span class="k">输入（缓存未命中）</span><span class="v">1.2M · ¥3.60</span></div>
-    <div class="row"><span class="k">输入（缓存命中）</span><span class="v">40.3M (97%) · ¥4.03 · <span class="save">省 ¥116.87</span></span></div>
+    <div class="row"><span class="k">输入（缓存命中）</span><span class="v">40.3M (97%) · ¥4.03</span></div>
     <div class="row"><span class="k">输出</span><span class="v">340K · ¥3.06</span></div>
-    <div class="row"><span class="k">上下文占用</span><span class="v">67%</span></div>
+    <div class="row"><span class="k">上下文占用</span><span class="v"><span class="occ high">67% · 紧张</span><button class="btn" title="/compact">压缩</button></span></div>
     <hr class="divider">
     <div class="total"><span>本次会话</span><span class="v">¥10.69</span></div>
     <div class="row"><span class="k">今日累计</span><span class="v">¥18.77</span></div>
     <div class="row"><span class="k">累计</span><span class="v">¥126.50</span></div>
-    <div class="row"><span class="k">缓存节省</span><span class="v"><span class="save">¥483.20</span></span></div>
+    <div class="row"><span class="k">本月段位</span><span class="v"><span class="tier-badge">🐬 海豚</span><button class="btn">分享卡片</button></span></div>
+    <div class="row"><span class="small">本月 42.6M</span><span class="small">距 鲸鱼 还需 7.4M</span></div>
+    <div class="tier-bar"><div class="tier-fill"></div></div>
     <div class="sec-title"><span>用量分布</span><span class="toggles"><span class="tbtn on">当日</span><span class="tbtn">近 7 天</span></span></div>
     <div class="chart" id="chart"></div>
     <div class="legend">
@@ -104,10 +121,11 @@
     <div class="budget-bar"><div class="budget-fill"></div></div>
     <hr class="divider">
     <div class="row"><span class="k">账户余额</span><span class="v"><span class="big" style="font-weight:700">¥372.11</span><button class="refresh">刷新</button></span></div>
-    <div class="footer">官方实时刊例价（2026-08-24 同步）· 未定价模型按 flash 估算 · 柱状图与模型分布按当前刊例价估算</div>
+    <div class="update-row"><span>dsh-plugin-usage-meter</span><span><button class="refresh">检查更新</button></span></div>
+    <div class="footer">官方实时刊例价（2026-08-24 同步）· 历史用量按生效区间刊例价计价（2 段）· 模型 deepseek-v4-pro · 柱状图与模型分布按当前刊例价估算</div>
   </div>
   <div class="chip-wrap">
-    <span class="chip"><span class="tier peak" title="高峰价（北京时间 09:00–12:00、14:00–18:00）">峰</span> API ↑41.5M ↓340K <span class="cost">≈¥10.69</span> <span class="dot-sep">·</span> 今日 ¥18.77 <span class="chev">▾</span></span>
+    <span class="chip"><span class="tier peak" title="高峰价（北京时间 09:00–12:00、14:00–18:00）">峰</span> API ↑41.5M ↓340K <span class="cost">≈¥10.69</span> <span class="dot-sep">·</span> 今日 ¥18.77 <span class="dot-sep">·</span> 余额 ¥372.11 <span class="chev">▾</span></span>
   </div>
 <script>
   // 24h usage: [proCost, flashCost] in yuan
@@ -121,7 +139,7 @@
     if (total === 0) {
       const e = document.createElement('div'); e.className = 'empty'; col.appendChild(e);
     } else {
-      for (const [i, v] of [d[1], d[0]].entries()) { // flash below, pro above
+      for (const [i, v] of [d[1], d[0]].entries()) {
         if (v <= 0) continue;
         const s = document.createElement('div');
         s.className = 'seg';

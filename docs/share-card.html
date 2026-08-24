@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: transparent;
+    font-family: "Segoe UI", "Microsoft YaHei", -apple-system, sans-serif;
+    width: 640px; height: 360px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .card {
+    width: 640px; height: 360px; position: relative;
+    background: #0b0e14; border: 2px solid #333d4f; border-radius: 20px; overflow: hidden;
+  }
+  .mascot { position: absolute; left: 30px; top: 110px; width: 170px; height: 170px; }
+  .right { position: absolute; left: 236px; top: 0; right: 24px; }
+  .card-title { color: #9aa4b5; font-size: 13px; line-height: 20px; margin-top: 44px; }
+  .tier { color: #e8ecf4; font-size: 42px; line-height: 54px; font-weight: 600; margin-top: 4px; }
+  .sub { color: #667082; font-size: 12px; line-height: 18px; margin-top: 2px; }
+  .line { display: flex; justify-content: space-between; font-size: 13px; line-height: 34px; margin-top: 0; }
+  .line .k { color: #9aa4b5; }
+  .line .v { color: #e8ecf4; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .watermark { position: absolute; left: 24px; bottom: 14px; color: #3b4859; font-size: 11px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="mascot" src="../lib/assets/liangzu-mascot.png" alt="梁祖">
+    <div class="right">
+      <div class="card-title">DeepSeek Harness · API 用量</div>
+      <div class="tier">🐬 海豚</div>
+      <div class="sub">段位 · 本月 42.6M tokens</div>
+      <div class="line" style="margin-top:22px"><span class="k">本月</span><span class="v">42.6M · ¥76.53</span></div>
+      <div class="line"><span class="k">今日费用</span><span class="v">¥18.77</span></div>
+      <div class="line"><span class="k">累计费用</span><span class="v">¥126.50</span></div>
+      <div class="line"><span class="k">缓存命中率</span><span class="v">97%</span></div>
+    </div>
+    <div class="watermark">dsh-plugin-usage-meter · 生成于 2026/8/24</div>
+  </div>
+</body>
+</html>
