@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-usage-meter",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "API 用量/费用/余额仪表 — DeepSeek Harness 网页插件：输入框下方按钮式用量条实时报价并显示余额，点击展开面板查看当日/近 7 天按模型堆叠柱状图、历史价生效区间计价、本月消耗段位与梁祖分享卡片、上下文压力三档预警 + 一键压缩、预算提醒、账户余额与检查更新/一键更新，并持久化跨会话账本。",
   "license": "MIT",
   "author": "fancr-code",
