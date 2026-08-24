@@ -5,6 +5,8 @@
   &nbsp;
   <img src="https://img.shields.io/npm/v/dsh-plugin-usage-meter?style=flat-square" alt="npm">
   &nbsp;
+  <img src="https://img.shields.io/npm/dm/dsh-plugin-usage-meter?style=flat-square" alt="Downloads">
+  &nbsp;
   <img src="https://img.shields.io/github/license/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="License">
   &nbsp;
   <img src="https://img.shields.io/github/last-commit/fancr-code/dsh-plugin-usage-meter?style=flat-square" alt="Last Commit">
