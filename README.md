@@ -131,18 +131,19 @@ usage-meter:
 
 ### 官方账单（可选，推荐）
 
-API Key 只能查余额，**读不了后台账单**；想要面板显示官方真实扣费，需要平台 token：
+API Key 只能查余额，**读不了后台账单**。插件支持两种方式接入平台账单（platform.deepseek.com 控制台同源数据）：
 
-1. 浏览器登录 [platform.deepseek.com](https://platform.deepseek.com/usage) → 按 F12 → Application（应用）→ Local Storage → 找到 `userToken` 并复制
-2. 写入凭证文件 `$DSH_HOME/.credentials.yaml`（与 `DEEPSEEK_API_KEY` 并列）：
+**方式一：自动从本机浏览器导入（默认，零配置）**——保持本机 Edge/Chrome 登录 platform.deepseek.com，插件直接从浏览器 Local Storage 读出 `userToken`（只在本机读取、只发往 platform.deepseek.com，不落账本）。重新登录平台后无需任何操作，自动拿到新 token。
+
+**方式二：手动粘贴**——F12 → Application（应用）→ Local Storage → 复制 `userToken`，写入 `$DSH_HOME/.credentials.yaml`（与 `DEEPSEEK_API_KEY` 并列）：
 
 ```yaml
 DEEPSEEK_PLATFORM_TOKEN: <粘贴 userToken>
 ```
 
-3. 重启 `dsh web`。生效后面板「今日累计 / 累计」显示绿色「官方」标与真实扣费，近 7 天柱状图直接画官方每日费用（10 分钟缓存，点「刷新」立即更新）
+> 禁用自动导入：环境变量 `USAGE_METER_AUTO_PLATFORM_TOKEN=0`。token 过期（平台报 40002/40003）自动退回估算，并冷却 30 分钟后自动重试/重扫。
 
-> token 过期（平台报 40002/40003）时自动退回估算；重新登录平台再更新一次即可。token 只存在本机凭证文件、只发往 platform.deepseek.com，不落账本。
+生效后面板「今日累计 / 累计」显示绿色「官方」标与真实扣费，近 7 天柱状图直接画官方每日费用（10 分钟缓存，点「刷新」立即更新）。
 
 ## 定价说明
 
