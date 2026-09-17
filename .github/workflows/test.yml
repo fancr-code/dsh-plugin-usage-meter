@@ -1,0 +1,24 @@
+name: test
+
+# 官方定价页改版过一次（3 模型列 → 2 模型列 + 模型改名），当时解析器静默失败、
+# 面板退回内置旧价，用户看到的价格是错的。这个 workflow 让解析契约在每次推送时
+# 被离线校验：fixtures 存的是真实页面存档 + 旧版结构合成样本，不需要联网。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Pricing parser regression test
+        run: npm test
