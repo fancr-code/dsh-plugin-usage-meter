@@ -25,7 +25,7 @@
 
 ## 是什么
 
-一个纯社区维护的 DeepSeek Harness（dsh）网页插件：在输入框下方放一个**按钮样式的用量条**，实时显示当前会话的 token 用量、按 DeepSeek 官方刊例价（峰谷 × 双币种）估算的费用与**账户余额**；点开面板能看到当日/近 7 天**按模型堆叠的柱状图**、模型分布、上下文压力预警、**本月消耗段位（🦐→🐋 五档，最高为梁祖）**、预算进度与余额，并支持一键生成**梁祖分享卡片**与插件**检查更新/一键更新**。跨会话用量持久化成本地账本，历史费用**按刊例价生效区间计价**（官方调价前后的天数各按当时价估算）。
+一个纯社区维护的 DeepSeek Harness（dsh）网页插件：在输入框下方放一个**按钮样式的用量条**，实时显示当前会话的 token 用量、按 DeepSeek 官方刊例价（峰谷 × 双币种）估算的费用与**账户余额**；点开面板能看到当日/近 7 天**按模型堆叠的柱状图**、模型分布、上下文压力预警、**本月消耗段位（🦐→🐋 五档，最高为梁祖）**、预算进度与余额，并支持一键生成**梁祖分享卡片**与插件**检查更新**（发现新版后跳转原生插件管理更新）。跨会话用量持久化成本地账本，历史费用**按刊例价生效区间计价**（官方调价前后的天数各按当时价估算）。
 
 | 能力 | 原生 dsh web | 装本插件后 |
 | --- | --- | --- |
@@ -39,7 +39,7 @@
 | 预算提醒 | 无 | 每日预算进度条，≥80% 黄、超支红 |
 | 上下文压力 | 无 | 30% / 50% / 85% 三档变色预警 + 一键 /compact |
 | 消耗段位 | 无 | 按本月 tokens 五档段位 + 梁祖分享卡片（canvas 导出 PNG） |
-| 插件更新 | 无 | 面板内检查 npm 最新版 + 一键更新 |
+| 插件更新 | 无 | 面板内检查 npm 最新版，发现新版后跳转原生插件管理与回滚 |
 | 跨会话账本 | 无 | 按天×模型、当日按小时×模型，原子持久化 |
 
 数据来自 provider 上报的真实用量（内置 `tokenUsage` 会话投影），不依赖任何第三方服务；插件走官方 profile 机制挂载，不改 dsh 源码，卸载即还原。
@@ -50,12 +50,12 @@
 
 | 维度 | 桌面版（Electron/Tauri 壳 · 独立客户端） | dsh-plugin-usage-meter |
 | --- | --- | --- |
-| 安装体积 | 几十 ~ 上百 MB（安装包 + 运行时） | **约 0.6 MB** npm 包（10 个文件，含图标与预览图） |
+| 安装体积 | 几十 ~ 上百 MB（安装包 + 运行时） | **约 0.6 MB** 插件包 + 官方 `schemastery` 依赖（约 0.1 MB） |
 | 运行开销 | 独立进程 + 常驻窗口，Electron 空壳内存普遍 100–300 MB | **不新增任何进程**：宿主半体跑在 Harness 进程内（不额外吃内存），前端只是网页里的一个小按钮 |
 | 安装 / 卸载 | 安装器 / 卸载器、注册表、残留风险 | 一行 `dsh plugin add / remove`，重启即生效/即还原，**不碰系统** |
-| 更新 | 下载安装包或依赖自家更新器 | 面板内检查 npm 最新版 + 一键更新（10 分钟缓存） |
+| 更新 | 下载安装包或依赖自家更新器 | 面板内检查 npm 最新版（10 分钟缓存），更新交给原生插件管理（带回滚） |
 | 跨平台 | 按系统各自打包、各自维护 | 纯 Web 插件，**Harness 跑在哪它就跟到哪**（Windows/macOS/Linux/WSL） |
-| 可审计性 | 打包产物难以逐行核对 | MIT 开源、源码即所得（`lib/index.js` + `lib/client.js`）、无遥测、无第三方运行时依赖 |
+| 可审计性 | 打包产物难以逐行核对 | MIT 开源、源码即所得（`lib/index.js` + `lib/client.js`）、无遥测；唯一运行时依赖是 Harness 官方 `@deepseek-ai/schemastery`（MIT） |
 
 ## 项目优点
 
@@ -64,12 +64,12 @@
 - 🗓️ **计价最贴近真实**：官方价每日自动同步 + 调价按生效区间计价 + 当日逐小时 × 峰谷档位
 - 🏆 **段位 + 梁祖分享卡片**：五档消耗段位，一键生成含梁祖吉祥物的 640×360 分享卡（canvas 导出 PNG）
 - 🧠 **上下文压力三档预警 + 一键压缩**：30% / 50% / 85% 变色，一键 `/compact`
-- 🔄 **面板内自更新**：检查 npm 最新版、一键升级、失败自动重试
+- 🔄 **面板内检查更新**：检查 npm 最新版，发现新版后跳转原生插件管理（带失败回滚与兼容检查）
 - 🔒 **本地优先**：账本只存 token 桶与模型名、原子写入、自动清理；余额/账单仅直连 DeepSeek 官方接口
 
 ## 功能特性
 
-- ⚡ **实时费用 + 余额按钮**：输入框下方一行 `峰 API ↑输入 ↓输出 ≈费用 · 今日 ¥X · 余额 ¥Y`，随流式输出实时刷新；按钮前缀**「峰 / 谷」时段标签**——高峰橙色、空闲绿色，悬停显示具体时段（北京时间 09:00–12:00、14:00–18:00 为高峰）
+- ⚡ **实时费用 + 余额按钮**：输入框下方一行 `峰 API ↑输入 ↓输出 费用≈¥X · 今日 ¥Y · 余额 ¥Z`，随流式输出实时刷新；按钮前缀**「峰 / 谷」时段标签**——高峰橙色、空闲绿色，悬停显示具体时段（北京时间 09:00–12:00、14:00–18:00 为高峰）
 - 📊 **用量分布柱状图**：
   - **当日（默认）**：24 小时级柱状图，横轴每 3 小时标注
   - **近 7 天**：每日柱状图，一键切换（**每日按当天生效的刊例价计价**）
@@ -82,7 +82,7 @@
 - 💰 **账户余额**：查询官方余额接口，**30s 缓存** + 手动刷新，查询带 10s 超时不会拖慢面板；余额同时显示在按钮上
 - 🧠 **上下文压力三档预警**：占用 30% 起变黄、50% 起橙色、85% 起红色（附「宽裕/偏高/紧张/危险」文字）；≥30% 时出现**「压缩」按钮**，一键把 `/compact` 放进输入框，回车即压缩上下文
 - 🏆 **消耗段位 + 梁祖分享卡片**：按本月 tokens 分五档——🦐 虾米 <1M、🐟 小鱼 1M–10M、🐬 海豚 10M–50M、🐳 鲸鱼 50M–200M、**🐋 梁祖 ≥200M**；面板显示当前段位与距下一档进度，点「分享卡片」用 canvas 现场绘制含梁祖吉祥物的 640×360 卡片，一键保存 PNG
-- 🔄 **检查更新 / 一键更新**：面板内查询 npm 最新版，有新版本时一键 `dsh plugin add` 更新自身（完成后提示重启 Harness）
+- 🔄 **检查更新**：面板内查询 npm 最新版，有新版本时跳转 Harness 原生插件管理完成更新（0.2.2 起原生支持第三方包更新与失败回滚）
 - 🧾 **跨会话账本**：宿主监听 `session/event` 增量折叠，原子写入（tmp + rename 防写坏），自动清理
 - 🎯 **预算提醒**：设置每日预算后，费用越接近预算颜色越醒目（≥80% 黄、超支红）
 - 🌐 **中英双语**：界面文案随 harness 语言自动切换
@@ -101,7 +101,7 @@
 
 ### 系统要求
 
-- 已安装 DeepSeek Harness，`dsh web` 可正常启动
+- 已安装 DeepSeek Harness **0.2.1-rc.1 及以上 0.2.x**，`dsh web` 可正常启动（0.1.x 请使用 1.10.0）
 - 余额查询需要 DeepSeek API Key（Web「模型」页写入的 `DEEPSEEK_API_KEY`；不配也能用除余额外的全部功能）
 
 ### 从 npm 安装（推荐）
@@ -132,25 +132,41 @@ dsh plugin --profile web add ./dsh-plugin-usage-meter
 - 验证：重启后输入框下方出现用量条即生效；也可 `dsh --profile web --dump-config` 确认 `usage-meter` 层已挂载
 - 卸载：`dsh plugin --profile web remove dsh-plugin-usage-meter`，重启 `dsh web`（bundle 列表自动清理，无需手改配置）
 
-## 设置
+## 兼容性与升级（2.0.0）
 
-编辑 `$DSH_HOME/settings.yaml`（`usage-meter:` 节，全部可选）：
+- 2.0.0 只支持 Harness **0.2.1-rc.1 及以上 0.2.x**（`engines.dsh: >=0.2.1-rc.1 <0.3.0`）；0.1.x 用户请留在 1.10.0。
+- **启动黑屏修复**：0.2.2 的 `dsh-client-ui-chat` 自带 id 为 `usage` 的 composer 药丸，1.x 插件也注册 `usage`，id 冲突会让 **ui-chat** 激活失败。2.0.0 起插件槽位 id 改为 `usage-meter`，排在原生 activity/usage 之后。
+- **账本修复**：改用 0.2.x 的 `session/event` + `snapshotEvents`/`seq` 回填，并持久化 `lastSeq`/`last`；Harness 重启不再把同一段历史重复累加。
+- **设置迁移**：插件声明原生 `Config`，0.2.2 首次启动会把旧 `$DSH_HOME/settings.yaml` 的 `usage-meter:` 节自动导入 profile 的 `usage-meter` entry，之后在 **设置 → 插件** 修改；若导入失败，插件会回退读取 `settings.yaml.imported` 并打 Host 日志告警。
+- **更新方式**：0.2.2 原生插件管理已支持第三方包更新与失败回滚；面板只保留“检查更新”，发现新版后打开插件管理页。
 
-```yaml
-usage-meter:
-  currency: USD        # CNY（默认）或 USD
-  budget: 50           # 每日预算（按上面币种），0 或省略 = 关闭提醒
-  pricing:             # 可选：覆盖某模型单价（人民币 / 1M tokens）
-    deepseek-v4-flash:
-      peak:    { cacheMissInput: 3.0, cacheHitInput: 0.10, output: 9.0 }
-      offPeak: { cacheMissInput: 1.5, cacheHitInput: 0.05, output: 4.5 }
-```
+> 0.2.2 原生 composer 已有 Activity、Usage 药丸与 ContextMeter。本插件的药丸以**费用/余额**为主，仍保留 token、上下文压力与一键 `/compact`，与原生信息互补而非替代。
+
+## 设置（原生 Config）
+
+打开 **设置 → 插件 → usage-meter** 即可修改（Harness 0.2.2 起根据插件 Config schema 自动生成表单）。字段全部可选：
 
 | 字段 | 说明 |
 | --- | --- |
-| `currency` | 计费币种：`CNY` / `USD` |
+| `currency` | 计费币种：`CNY`（默认）/ `USD` |
 | `budget` | 每日预算金额；`0` 或不写 = 关闭预算提醒 |
-| `pricing.<模型>.peak / offPeak` | 覆盖刊例价（人民币/1M tokens，美元按 6.82 折算）；`cacheMissInput` 输入未命中、`cacheHitInput` 输入命中、`output` 输出 |
+| `pricing.<模型>.peak / offPeak` | 覆盖刊例价（人民币/1M tokens，美元按 6.82 折算）；支持 `cacheMissInput` 输入未命中、`cacheHitInput` 输入命中、`output` 输出，也接受简写 `miss` / `hit` / `out` |
+
+也可以直接编辑 profile 的 `cordis.patch.yml`（与设置页等效）：
+
+```yaml
+- id: usage-meter
+  name: dsh-plugin-usage-meter
+  config:
+    currency: USD
+    budget: 50
+    pricing:
+      deepseek-flash:
+        peak: { cacheMissInput: 3.0, cacheHitInput: 0.10, output: 9.0 }
+        offPeak: { cacheMissInput: 1.5, cacheHitInput: 0.05, output: 4.5 }
+```
+
+> 从 1.x 升级：旧 `$DSH_HOME/settings.yaml` 会在 0.2.2 首次启动时被导入并重命名为 `settings.yaml.imported`；导入失败的节会留在该文件中，插件会回退读取并在 Host 日志里告警。
 
 ### 官方账单（可选，推荐）
 
@@ -170,7 +186,7 @@ DEEPSEEK_PLATFORM_TOKEN: <粘贴 userToken>
 
 ## 定价说明
 
-**自动同步官方刊例价 + 生效区间历史**：宿主每天自动抓取并解析 DeepSeek 官方定价页（[api-docs.deepseek.com/quick_start/pricing](https://api-docs.deepseek.com/quick_start/pricing)，美元/1M tokens，人民币按固定比例折算）。官方调价后**无需更新插件即自动生效**，且调价前后的历史用量会**各自按当时生效的刊例价估算**（账本保存 ≤24 个生效区间快照，内置 2026-08-17 快照兜底）。价格优先级：**settings.yaml 覆盖 > 官方生效区间/实时 > 内置快照**（面板页脚会标注当前来源与同步日期；存在多段生效区间时标注区间数）。
+**自动同步官方刊例价 + 生效区间历史**：宿主每天自动抓取并解析 DeepSeek 官方定价页（[api-docs.deepseek.com/quick_start/pricing](https://api-docs.deepseek.com/quick_start/pricing)，美元/1M tokens，人民币按固定比例折算）。官方调价后**无需更新插件即自动生效**，且调价前后的历史用量会**各自按当时生效的刊例价估算**（账本保存 ≤24 个生效区间快照，内置 2026-08-17 快照兜底）。价格优先级：**设置里的 pricing 覆盖 > 官方生效区间/实时 > 内置快照**（面板页脚会标注当前来源与同步日期；存在多段生效区间时标注区间数）。
 
 官方高峰规则（2026-08 起）：**UTC 01:00–04:00、06:00–10:00（即北京时间 09:00–12:00、14:00–18:00），仅周一至周五**；其余时间为空闲价（高峰为空闲 2 倍）。当前参考价格：
 
@@ -190,7 +206,7 @@ DEEPSEEK_PLATFORM_TOKEN: <粘贴 userToken>
 - 写入策略：2s 防抖 + 原子写入（临时文件 + rename），崩溃不损坏账本
 - 自动清理：按天数据保留 180 天、当日小时数据跨天即清、90 天前的零用量会话条目删除
 - 余额接口直连 `api.deepseek.com`（跟随 `$DEEPSEEK_BASE_URL`），API Key 走 harness 凭证服务，不落账本
-- 检查更新直连 `registry.npmjs.org`（10 分钟缓存）；一键更新调用 `dsh plugin add`，仅在你点击「更新」后执行
+- 检查更新直连 `registry.npmjs.org`（10 分钟缓存）；点「更新」只打开 0.2.2 原生插件管理页，安装/回滚由 Harness 完成
 
 ## 常见问题
 
@@ -209,7 +225,7 @@ DEEPSEEK_PLATFORM_TOKEN: <粘贴 userToken>
 <details>
 <summary><strong>费用数字和官方账单对不上？</strong></summary>
 
-面板是**估算值**：日内峰谷差异不追溯，但历史天会按各自生效区间刊例价计价（官方调价自动识别）；刊例价每天自动同步官方页（失败时用内置快照），也可在设置里用 `pricing` 覆盖。以官方账单为准。
+面板是**估算值**：日内峰谷差异不追溯，但历史天会按各自生效区间刊例价计价（官方调价自动识别）；刊例价每天自动同步官方页（失败时用内置快照），也可在 设置 → 插件 里用 `pricing` 覆盖。以官方账单为准。
 </details>
 
 <details>
@@ -227,7 +243,7 @@ DEEPSEEK_PLATFORM_TOKEN: <粘贴 userToken>
 <details>
 <summary><strong>「更新」点了之后要做什么？</strong></summary>
 
-面板内更新会执行 `dsh plugin add dsh-plugin-usage-meter` 升级到 npm 最新版，完成后**重启 Harness 生效**（托盘菜单 → 重启 Harness，或重启 `dsh web`）。
+面板内点「去插件管理更新」会打开 Harness 的插件管理页，由原生更新器安装 npm 最新版（0.2.2 起支持失败回滚与兼容检查）；按页面提示重启或热更新生效。
 </details>
 
 <details>
