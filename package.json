@@ -1,7 +1,7 @@
 {
   "name": "dsh-plugin-usage-meter",
-  "version": "1.10.0",
-  "description": "API 用量/费用/余额仪表 — DeepSeek Harness 网页插件：按钮式用量条实时报价并显示余额；面板含按模型堆叠柱状图（当日逐小时×峰谷档位、官方调价按生效区间计价）、官方账单、消耗段位与梁祖分享卡片、上下文压力预警 + 一键压缩、预算提醒与检查更新/一键更新。自动同步模型定价，兼容 harness 0.1.0-rc.7 ~ 0.1.7-rc.2。",
+  "version": "2.0.0",
+  "description": "API 用量/费用/余额仪表 — DeepSeek Harness 网页插件：按钮式费用条实时报价并显示余额；面板含按模型堆叠柱状图（当日逐小时×峰谷档位、官方调价按生效区间计价）、官方账单、消耗段位与梁祖分享卡片、上下文压力预警 + 一键压缩、预算提醒与检查更新。设置走原生 Config（Settings → Plugins），自动同步模型定价，兼容 harness 0.2.1-rc.1 及以上 0.2.x。",
   "license": "MIT",
   "author": "fancr-code",
   "type": "module",
@@ -22,7 +22,8 @@
     "docs/share-card.png"
   ],
   "scripts": {
-    "test": "node scripts/test-pricing.mjs"
+    "test": "node scripts/test-pricing.mjs && node scripts/test-host-fold.mjs && node scripts/test-config.mjs",
+    "smoke": "node scripts/smoke-web.mjs"
   },
   "repository": {
     "type": "git",
@@ -60,6 +61,10 @@
     "react": "^18.2.0"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22",
+    "dsh": ">=0.2.1-rc.1 <0.3.0"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.19.0"
   }
 }
